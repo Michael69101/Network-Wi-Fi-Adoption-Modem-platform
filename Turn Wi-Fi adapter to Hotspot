@@ -1,0 +1,5 @@
+sudo apt update
+   sudo apt install hostapd dnsmasq
+   git clone https://github.com/oblique/create_ap
+   cd create_ap
+   sudo make install
