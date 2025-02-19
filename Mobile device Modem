@@ -1,0 +1,12 @@
+import subprocess
+
+# Step 1: Connect to the smartphone's hotspot (via USB/Wi-Fi)
+# Example: Enable USB tethering on the phone, then configure the Pi to use it.
+subprocess.run(["nmcli", "device", "wifi", "connect", "YourPhoneHotspotSSID", "password", "YourPassword"])
+
+# Step 2: Configure the Wi-Fi adapter to act as an access point
+subprocess.run(["sudo", "create_ap", "-n", "wlan0", "YourCustomNetwork", "CustomPassword"])
+
+# Step 3: Enable IP forwarding (share internet)
+subprocess.run(["sudo", "sysctl", "-w", "net.ipv4.ip_forward=1"])
+subprocess.run(["sudo", "iptables", "-t", "nat", "-A", "POSTROUTING", "-o", "usb0", "-j", "MASQUERADE"])
