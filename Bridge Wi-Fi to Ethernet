@@ -1,0 +1,32 @@
+sudo apt update
+   sudo apt install dnsmasq hostapd
+auto wlan0
+     iface wlan0 inet dhcp
+sudo sysctl -w net.ipv4.ip_forward=1
+   sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+sudo systemctl restart networking
+import subprocess
+
+# Replace with your hotspot SSID and password
+ssid = "YourPhoneHotspot"
+password = "YourPassword"
+
+# Connect to the hotspot
+subprocess.run([
+    "nmcli", "device", "wifi", "connect", 
+    ssid, "password", password
+], shell=True)
+
+# Enable IP forwarding
+subprocess.run(["sudo", "sysctl", "-w", "net.ipv4.ip_forward=1"])
+
+# Set up NAT for Ethernet (replace eth0 with your Ethernet interface)
+subprocess.run([
+    "sudo", "iptables", "-t", "nat", "-A", "POSTROUTING", 
+    "-o", "eth0", "-j", "MASQUERADE"
+])
+
+# Restart networking
+subprocess.run(["sudo", "systemctl", "restart", "networking"])
+
+print("Wi-Fi to Ethernet bridging complete!")
