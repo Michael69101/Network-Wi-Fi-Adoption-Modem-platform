@@ -11,3 +11,19 @@ RestartSec=5
 
 [Install]
 WantedBy=multi-user.target
+class NetworkPriorityPower:
+    def __init__(self):
+            self.priority_loads = {
+                            '5G_towers': 15,   # kW
+                                        'emergency_comms': 5,
+                                                    'traffic_systems': 10
+            }
+                
+                    def allocate_power(self, available_kW):
+                            # AI-powered load distribution
+                                    for load, req in self.priority_loads.items():
+                                                if available_kW >= req:
+                                                                energize_load(load)
+                                                                                available_kW -= req
+                                                                                        return available_kW
+            }
